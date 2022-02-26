@@ -3,8 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'blocs/color/color_bloc.dart';
 import 'blocs/counter/counter_bloc.dart';
+import 'observers/color_bloc_observer.dart';
 
 void main() {
+  // BlocOverrides.runZoned(
+  //   () {
+  //     runApp(const MyApp());
+  //   },
+  //   blocObserver: ColorBlocObserver(),
+  // );
   runApp(const MyApp());
 }
 
@@ -60,10 +67,12 @@ class _MyHomePageState extends State<MyHomePage> {
               .read<CounterBloc>()
               .add(ChangeCounterEvent(incrementSize: incrementSize));
         }
-        ;
       },
       child: Scaffold(
-        backgroundColor: context.watch<ColorBloc>().state.color,
+        backgroundColor: BlocOverrides.runZoned(
+          () => context.watch<ColorBloc>().state.color,
+          blocObserver: ColorBlocObserver(),
+        ),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -78,13 +87,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
               ),
               const SizedBox(height: 20.0),
-              Text(
-                '${context.watch<CounterBloc>().state.counter}',
-                style: const TextStyle(
-                  fontSize: 52.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
+              BlocOverrides.runZoned(
+                () {
+                  return Text(
+                    '${context.watch<CounterBloc>().state.counter}',
+                    style: const TextStyle(
+                      fontSize: 52.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  );
+                },
+                blocObserver: ColorBlocObserver(),
               ),
               const SizedBox(height: 20.0),
               ElevatedButton(

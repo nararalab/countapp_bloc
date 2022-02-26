@@ -3,7 +3,7 @@
 카운트앱(cubit - cubit)
 
 - 2개의 큐빗 상태 상호 작용하는 카운트앱
-- color 상태를 StreamSubscription 하면서, counter 처리하는 앱
+- color 상태를 BlockListener 하면서, counter 처리하는 앱
 
 ## 구조
 
@@ -19,11 +19,10 @@ cubits
 │   ├── counter_state.dart
 ```
 
-### SteamSubscription
+### BlocListener
 
 ```dart
-late final StreamSubscription colorSubscription;
-colorSubscription = colorCubit.stream.listen((ColorState colorState) { });
+BlocListener<ColorCubit, ColorState>
 ```
 
 ### MultiBlocProvider
@@ -34,7 +33,7 @@ colorSubscription = colorCubit.stream.listen((ColorState colorState) { });
 ### Button > onPressed
 
 - context.read<`ColorCubit`>().changeColor();
-- context.read<`CounterCubit`>().changeCounter();
+- context.read<`CounterCubit`>().changeCounter(incrementSize);
 
 ## 작업
 

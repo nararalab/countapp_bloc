@@ -1,7 +1,8 @@
 # countapp_bloc
 
 카운트앱(cubit - cubit)
-2개의 큐빗  상태 상호 작용하는 카운트앱
+2개의 큐빗 상태 상호 작용하는 카운트앱
+color 상태를 StreamSubscription 하면서, counter 처리하는 앱
 
 ## 구조
 
@@ -15,6 +16,13 @@ cubits
 ├──counter
 │   ├── counter_cubit.dart
 │   ├── counter_state.dart
+```
+
+### SteamSubscription
+
+```dart
+late final StreamSubscription colorSubscription;
+colorSubscription = colorCubit.stream.listen((ColorState colorState) { });
 ```
 
 ### MultiBlocProvider

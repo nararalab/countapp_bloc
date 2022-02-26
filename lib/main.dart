@@ -25,18 +25,16 @@ class MyApp extends StatelessWidget {
           create: (context) => ThemeBloc(),
         ),
       ],
-      child: BlocBuilder<ThemeBloc, ThemeState>(
-        builder: (context, state) {
-          return MaterialApp(
-            title: '카운트앱 Bloc방식',
-            debugShowCheckedModeBanner: false,
-            theme: state.appTheme == AppTheme.light
-                ? ThemeData.light()
-                : ThemeData.dark(),
-            home: const MyHomePage(),
-          );
-        },
-      ),
+      child: Builder(builder: (context) {
+        return MaterialApp(
+          title: '카운트앱 Bloc방식',
+          debugShowCheckedModeBanner: false,
+          theme: context.watch<ThemeBloc>().state.appTheme == AppTheme.light
+              ? ThemeData.light()
+              : ThemeData.dark(),
+          home: const MyHomePage(),
+        );
+      }),
     );
   }
 }

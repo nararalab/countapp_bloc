@@ -1,7 +1,8 @@
-import 'package:countapp_bloc/cubits/counter/counter_cubit.dart';
 import 'package:countapp_bloc/other_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'blocs/counter/counter_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,10 +13,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<CounterCubit>(
-      create: (context) => CounterCubit(),
+    return BlocProvider<CounterBloc>(
+      create: (context) => CounterBloc(),
       child: MaterialApp(
-        title: '카운트앱 Cubit방식',
+        title: '카운트앱 Bloc방식',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
@@ -31,7 +32,7 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocConsumer<CounterCubit, CounterState>(
+      body: BlocListener<CounterBloc, CounterState>(
         listener: (context, state) {
           if (state.counter == 3) {
             showDialog(
@@ -50,21 +51,20 @@ class MyHomePage extends StatelessWidget {
             );
           }
         },
-        builder: (context, state) {
-          return Center(
-            child: Text(
-              '${state.counter}',
-              style: const TextStyle(fontSize: 52.0),
-            ),
-          );
-        },
+        child: Center(
+          child: Text(
+            '${context.watch<CounterBloc>().state.counter}',
+            style: const TextStyle(fontSize: 52.0),
+          ),
+        ),
       ),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
             onPressed: () {
-              context.read<CounterCubit>().increment();
+              BlocProvider.of<CounterBloc>(context)
+                  .add(IncrementCounterEvent());
             },
             child: const Icon(Icons.add),
             heroTag: '증가',
@@ -72,7 +72,7 @@ class MyHomePage extends StatelessWidget {
           const SizedBox(width: 10.0),
           FloatingActionButton(
             onPressed: () {
-              context.read<CounterCubit>().decrement();
+              context.read<CounterBloc>().add(DecrementCounterEvent());
             },
             child: const Icon(Icons.remove),
             heroTag: '감소',

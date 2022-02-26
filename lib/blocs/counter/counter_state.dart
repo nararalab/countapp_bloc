@@ -1,4 +1,4 @@
-part of 'counter_cubit.dart';
+part of 'counter_bloc.dart';
 
 class CounterState extends Equatable {
   final int counter;
@@ -11,10 +11,10 @@ class CounterState extends Equatable {
   }
 
   @override
-  List<Object> get props => [counter];
+  String toString() => 'CounterState(counter: $counter)';
 
   @override
-  String toString() => 'COunterState(counter: $counter)';
+  List<Object> get props => [counter];
 
   CounterState copyWith({
     int? counter,
@@ -25,10 +25,9 @@ class CounterState extends Equatable {
   }
 }
 
-// 기본 생성 지우기
 // abstract class CounterState extends Equatable {
 //   const CounterState();
-
+  
 //   @override
 //   List<Object> get props => [];
 // }

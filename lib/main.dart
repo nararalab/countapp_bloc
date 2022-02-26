@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
       create: (context) => CounterBloc(),
       child: MaterialApp(
         title: '카운트앱 Bloc방식',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),

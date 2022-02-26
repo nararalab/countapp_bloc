@@ -64,7 +64,7 @@ class MyHomePage extends StatelessWidget {
         children: [
           FloatingActionButton(
             onPressed: () {
-              BlocProvider.of<CounterCubit>(context).increment();
+              context.read<CounterCubit>().increment();
             },
             child: const Icon(Icons.add),
             heroTag: '증가',
@@ -72,7 +72,7 @@ class MyHomePage extends StatelessWidget {
           const SizedBox(width: 10.0),
           FloatingActionButton(
             onPressed: () {
-              BlocProvider.of<CounterCubit>(context).decrement();
+              context.read<CounterCubit>().decrement();
             },
             child: const Icon(Icons.remove),
             heroTag: '감소',

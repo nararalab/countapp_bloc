@@ -1,10 +1,31 @@
 # countapp_bloc
 
-카운트앱(cubit 방식 / bloc 방식)
+카운트앱(cubit - cubit)
+2개의 큐빗  상태 상호 작용하는 카운트앱
 
-## Getting Started
+## 구조
 
-공부용
+### cubit / state
+
+```tree
+cubits
+├──color
+│   ├── color_cubit.dart
+│   ├── color_state.dart
+├──counter
+│   ├── counter_cubit.dart
+│   ├── counter_state.dart
+```
+
+### MultiBlocProvider
+
+- BlocProvider<`ColorCubit`>
+- BlocProvider<`CounterCubit`>
+
+### Button > onPressed
+
+- context.read<`ColorCubit`>().changeColor();
+- context.read<`CounterCubit`>().changeCounter();
 
 ## 작업
 

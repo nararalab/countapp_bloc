@@ -2,7 +2,7 @@ part of 'counter_bloc.dart';
 
 class CounterState extends Equatable {
   final int counter;
-  CounterState({
+  const CounterState({
     required this.counter,
   });
 
@@ -11,10 +11,10 @@ class CounterState extends Equatable {
   }
 
   @override
-  String toString() => 'CounterState(counter: $counter)';
+  List<Object> get props => [counter];
 
   @override
-  List<Object> get props => [counter];
+  String toString() => 'CounterState(counter: $counter)';
 
   CounterState copyWith({
     int? counter,
@@ -24,12 +24,3 @@ class CounterState extends Equatable {
     );
   }
 }
-
-// abstract class CounterState extends Equatable {
-//   const CounterState();
-  
-//   @override
-//   List<Object> get props => [];
-// }
-
-// class CounterInitial extends CounterState {}

@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:countapp_bloc/other_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'blocs/counter/counter_bloc.dart';
+import 'blocs/theme/theme_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,15 +16,26 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<CounterBloc>(
-      create: (context) => CounterBloc(),
-      child: MaterialApp(
-        title: '카운트앱 Bloc방식',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<CounterBloc>(
+          create: (context) => CounterBloc(),
         ),
-        home: const MyHomePage(),
+        BlocProvider<ThemeBloc>(
+          create: (context) => ThemeBloc(),
+        ),
+      ],
+      child: BlocBuilder<ThemeBloc, ThemeState>(
+        builder: (context, state) {
+          return MaterialApp(
+            title: '카운트앱 Bloc방식',
+            debugShowCheckedModeBanner: false,
+            theme: state.appTheme == AppTheme.light
+                ? ThemeData.light()
+                : ThemeData.dark(),
+            home: const MyHomePage(),
+          );
+        },
       ),
     );
   }
@@ -52,11 +66,29 @@ class MyHomePage extends StatelessWidget {
             );
           }
         },
-        child: Center(
-          child: Text(
-            '${context.watch<CounterBloc>().state.counter}',
-            style: const TextStyle(fontSize: 52.0),
-          ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Text(
+                '${context.watch<CounterBloc>().state.counter}',
+                style: const TextStyle(fontSize: 52.0),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                final int randInt = Random().nextInt(10);
+                print('[디버깅] randInt : $randInt');
+                context
+                    .read<ThemeBloc>()
+                    .add(ChangeThemeEvent(randInt: randInt));
+              },
+              child: const Text(
+                '테마변경',
+                style: TextStyle(fontSize: 24.0),
+              ),
+            ),
+          ],
         ),
       ),
       floatingActionButton: Row(

@@ -1,9 +1,9 @@
 # countapp_bloc
 
-## 카운트앱(cubit - cubit)
+## 카운트앱(Bloc - Bloc)
 
 2개의 Bloc 상태 상호 작용하는 카운트앱
-color 상태를 StreamSubscription 하면서, counter 처리하는 앱
+color 상태를 BlockListener 하면서, counter 처리하는 앱
 
 ## 구조
 
@@ -37,16 +37,14 @@ class ColorBloc extends Bloc<ColorEvent, ColorState> {
 
 ```dart
 on<ChangeCounterEvent>((event, emit) {
-  emit(state.copyWith(counter: state.counter + incrementSize));
+  emit(state.copyWith(counter: state.counter + event.incrementSize));
 });
 ```
 
-### SteamSubscription
+### BlocListener
 
 ```dart
-late final StreamSubscription colorSubscription;
-colorSubscription = colorCubit.stream.listen((ColorState colorState) { });
-colorSubscription.cancel();
+BlocListener<ColorBloc, ColorState>
 ```
 
 ### MultiBlocProvider
